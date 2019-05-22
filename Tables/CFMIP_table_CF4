@@ -1,0 +1,558 @@
+! doubled CO2 forcing data
+!
+cmor_version: 1.0         ! version of CMOR that can read this table
+cf_version:   1.0         ! version of CF that output conforms to
+project_id:   CFMIP       ! project id
+! Doubled CO2 radiative forcing
+!
+table_id:     Table CF4    ! table id
+table_date:   29 October 2004 ! date this table was constructed
+
+expt_id_ok:   'slab ocean control experiment'
+expt_id_ok:   '2xCO2 equilibrium experiment'
+expt_id_ok:   '+2K perpetual July experiment'
+expt_id_ok:   '0K perpetual July experiment'
+expt_id_ok:   '-2K perpetual July experiment'
+
+magic_number: -1          ! used to check whether this file has been
+                          !   altered from the official version.
+                          !   should be set to number of non-blank
+                          !   characters in file.
+approx_interval:  30.     ! approximate spacing between successive time
+                          !   samples (in units of the output time
+                          !   coordinate), but this is ignored if set to 0.
+missing_value: 1.e20      ! value used to indicate a missing value
+                          !   in arrays output by netCDF as 32-bit IEEE
+                          !   floating-point numbers (float or real)
+
+!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+!
+! SUBROUTINE ARGUMENT DEFAULT INFORMATION
+!
+!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+!
+!  set default specifications for subroutine arguments to:
+!     required/indeterminate/optional/ignored/forbidden
+!    (indeterminate may or may not be required information, but is not always
+!     required as an argument of the function call)
+!
+!
+!============
+subroutine_entry: cmor_axis
+!============
+!
+required: table axis_name units length coord_vals cell_bounds
+ignored: interval
+!
+!============
+subroutine_entry: cmor_variable
+!============
+!
+required: table table_entry units axis_ids
+indeterminate: missing_value
+optional: tolerance original_name history comment
+ignored: positive
+!
+!============
+subroutine_entry: cmor_write
+!============
+!
+required:  var_id data
+indeterminate: ntimes_passed time_vals time_bnds store_with
+optional: file_suffix
+!
+!
+!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+!
+! AXIS INFORMATION
+!
+!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+!
+! ??? what about climatology???
+!
+!
+!  TEMPLATE FOR AXES
+!
+!============
+!axis_entry:               ! (required)
+!============
+!
+!    Override default argument specifications for cmor_axis
+!------------
+!    acceptable arguments include units length coord_vals cell_bounds interval
+!required:                  ! (default: table axis_name units length
+!                                        coord_vals cell_bounds)
+!indeterminate:
+!optional:
+!ignored:                   ! (default: interval)
+!forbidden:
+!------------
+!
+! Axis attributes:
+!----------------------------------
+!standard_name:             ! (required)
+!units:                     ! (required)
+!axis:                      ! X, Y, Z, T (default: undeclared)
+!positive:                  ! up or down (default: undeclared)
+!long_name:                 ! (default: undeclared)
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+!out_name:                ! (default: same as axis_entry)
+!type:                    ! double (default), real, character, integer
+!stored_direction:        ! increasing (default) or decreasing
+!valid_min:               ! type: double precision (default: no check performed
+!valid_max:               ! type: double precision (default: no check performed
+!requested:               ! space-separated list of requested coordinates
+                          !       (default: undeclared)
+!bounds_requested:        ! space-separated list of requested coordinate bounds
+                          !       (default: undeclared)
+!tol_on_requests:         ! fractional tolerance for meeting request
+                          !  (default=1.e-3, which is used in the formula:
+                          !     eps =  MIN(( tol*interval between grid-points)
+                          !          and (1.e-3*tol*coordinate value)))
+!value:                   ! of scalar (singleton) dimension
+!bounds_values:           ! of scalar (singleton) dimension bounds
+!----------------------------------
+!
+!
+!  TEMPLATE FOR VARIABLES
+!
+!
+!============
+!variable_entry:                ! (required)
+!============
+!
+!    Override default argument specifications for cmor_variable
+!------------
+!        acceptable arguments include  file_suffix missing_value tolerance
+!                               original_name history comment positive
+!required:                   ! (default: table table_entry units axis_ids)
+!indeterminate:              ! (default: file_suffix missing_value)
+!optional:                   ! (default: original_name history comment)
+!ignored:                    ! (default: positive)
+!forbidden:
+!------------
+!
+! Variable attributes:
+!----------------------------------
+!standard_name:              ! (required)
+!units:                      ! (required)
+!cell_methods:               ! (default: undeclared)
+!long_name:                  ! (default: undeclared)
+!comment:                    ! (default: undeclared)
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+!dimensions:                 ! (required)  (scalar dimension(s) should appear
+                             !      last in list)
+!out_name:                   ! (default: variable_entry)
+!type:                       ! real (default), double, integer
+!positive:                   ! up or down (default: undeclared)
+!valid_min:                  ! type: real (default: no check performed)
+!valid_max:                  ! type: real (default: no check performed)
+!ok_min_mean_abs:            ! type: real (default: no check performed)
+!ok_max_mean_abs:            ! type: real (default: no check performed)
+!----------------------------------
+!
+
+!
+!============
+axis_entry: longitude
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:    longitude
+units:            degrees_east
+axis:             X
+long_name:        longitude
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:         lon
+valid_min:        0.           ! CMOR will add n*360 to input values
+                               ! (where n is an integer) to ensure
+                               !  longitudes are in proper range.  The
+                               !  data will also be rearranged
+                               !  appropriately.
+valid_max:        360.         !  see above comment.
+!----------------------------------
+!
+!
+!=============
+axis_entry: latitude
+!=============
+!
+! Axis attributes:
+!----------------------------------
+standard_name:    latitude
+units:            degrees_north
+axis:             Y
+long_name:        latitude
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:         lat
+valid_min:        -90.
+valid_max:        90.
+!----------------------------------
+!
+!
+!
+
+!============
+axis_entry: time
+!============
+!
+!    Override default argument specifications for cmor_axis
+!------------
+optional: interval length
+indeterminate: coord_vals cell_bounds
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:    time
+units:            days since ?
+axis:             T
+long_name:        time
+!----------------------------------
+!
+!
+!============
+axis_entry: pressure1
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:    air_pressure
+units:            Pa
+axis:             Z
+positive:         down
+long_name:        pressure
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:         plev
+valid_min:        10000.
+valid_max:        30000.
+value:            20000.
+!----------------------------------
+!
+!
+!
+!
+!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+!
+! VARIABLE INFORMATION
+!
+!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+!
+!
+!
+! ***************************************************************
+!
+! CFMIP Table CF4: Monthly-mean 2-d radiative forcing data
+!
+! ***************************************************************
+!
+!
+!
+!============
+variable_entry: rsftoaa_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: toa_adjusted_shortwave_forcing
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Adjusted Top of the Atmosphere Shortwave Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time
+!----------------------------------
+!
+!
+!============
+variable_entry: rsftropa_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: tropopause_adjusted_shortwave_forcing
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Adjusted Tropopause Shortwave Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time pressure1
+!----------------------------------
+!
+!
+!============
+variable_entry: rsftoai_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: toa_instantaneous_shortwave_forcing
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Instantaneous Top of the Atmosphere Shortwave Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time
+!----------------------------------
+!
+!
+!============
+variable_entry: rsftropi_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: tropopause_instantaneous_shortwave_forcing
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Instantaneous Tropopause Shortwave Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time pressure1
+!----------------------------------
+!
+!
+!============
+variable_entry: rlftoaa_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: toa_adjusted_longwave_forcing
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Adjusted Top of the Atmosphere Longwave Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time
+!----------------------------------
+!
+!
+!============
+variable_entry: rlftropa_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: tropopause_adjusted_longwave_forcing
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Adjusted Tropopause Longwave Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time pressure1
+!----------------------------------
+!
+!
+!============
+variable_entry: rlftoai_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: toa_instantaneous_longwave_forcing
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Instantaneous Top of the Atmosphere Longwave Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time
+!----------------------------------
+!
+!
+!============
+variable_entry: rlftropi_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: tropopause_instantaneous_longwave_forcing
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Instantaneous Tropopause Longwave Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time pressure1
+!----------------------------------
+!
+!
+!============
+variable_entry: rsftoaacs_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: toa_adjusted_shortwave_forcing_assuming_clear_sky
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Adjusted Top of the Atmosphere Shortwave Clear-Sky Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time
+!----------------------------------
+!
+!
+!============
+variable_entry: rsftropacs_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: tropopause_adjusted_shortwave_forcing_assuming_clear_sky
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Adjusted Tropopause Shortwave Clear-Sky Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time pressure1
+!----------------------------------
+!
+!
+!============
+variable_entry: rsftoaics_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: toa_instantaneous_shortwave_forcing_assuming_clear_sky
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Instantaneous Top of the Atmosphere Shortwave Clear-Sky Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time
+!----------------------------------
+!
+!
+!============
+variable_entry: rsftropics_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: tropopause_instantaneous_shortwave_forcing_assuming_clear_sky
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Instantaneous Tropopause Shortwave Clear-Sky Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time pressure1
+!----------------------------------
+!
+!
+!============
+variable_entry: rlftoaacs_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: toa_adjusted_longwave_forcing_assuming_clear_sky
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Adjusted Top of the Atmosphere Longwave Clear-Sky Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time
+!----------------------------------
+!
+!
+!============
+variable_entry: rlftropacs_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: tropopause_adjusted_longwave_forcing_assuming_clear_sky
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Adjusted Tropopause Longwave Clear-Sky Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time pressure1
+!----------------------------------
+!
+!
+!============
+variable_entry: rlftoaics_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: toa_instantaneous_longwave_forcing_assuming_clear_sky
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Instantaneous Top of the Atmosphere Longwave Clear-Sky Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time
+!----------------------------------
+!
+!
+!============
+variable_entry: rlftropics_co2
+!============
+!
+! Variable attributes:
+!----------------------------------
+standard_name: tropopause_instantaneous_longwave_forcing_assuming_clear_sky
+units:         W m-2
+cell_methods:  time: mean
+long_name:     Instantaneous Tropopause Longwave Clear-Sky Forcing Due to Anthropogenic Carbon Dioxide
+!----------------------------------
+!
+! Additional variable information:
+!----------------------------------
+dimensions:       longitude latitude time pressure1
+!----------------------------------
+!
+!
